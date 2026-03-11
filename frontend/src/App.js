@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+
 const STEP_LABELS = {
   tool_signal_harvester: "Signal Harvester",
   tool_research_analyst: "Research Analyst",
@@ -40,7 +42,7 @@ export default function App() {
     const stepTimer2 = setTimeout(() => setActiveStep(3), 13000);
 
     try {
-      const res = await axios.post("http://localhost:8000/run-agent", form);
+      const res = await axios.post(`${BACKEND_URL}/run-agent`, form);
       clearTimeout(stepTimer1);
       clearTimeout(stepTimer2);
       setActiveStep(0);
@@ -60,7 +62,7 @@ export default function App() {
     <div style={styles.page}>
       <div style={styles.gridBg} />
 
-      {/* Header - NO BETA badge */}
+      {/* Header */}
       <div style={styles.header}>
         <div style={styles.logoRow}>
           <span style={styles.flame}>🔥</span>
@@ -289,9 +291,7 @@ export default function App() {
         input::placeholder, textarea::placeholder { color: #333; }
         * { box-sizing: border-box; }
         body { margin: 0; background: #080808; }
-        @media (max-width: 420px) {
-          .pipeline-label { display: none; }
-        }
+        @media (max-width: 420px) { .pipeline-label { display: none; } }
       `}</style>
     </div>
   );
@@ -311,8 +311,7 @@ const styles = {
   gridBg: {
     position: "fixed",
     top: 0, left: 0, right: 0, bottom: 0,
-    backgroundImage:
-      "linear-gradient(rgba(255,77,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,77,0,0.03) 1px,transparent 1px)",
+    backgroundImage: "linear-gradient(rgba(255,77,0,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,77,0,0.03) 1px,transparent 1px)",
     backgroundSize: "40px 40px",
     pointerEvents: "none",
     zIndex: 0,
